@@ -1,0 +1,14 @@
+create or replace view qq as
+select nct_id
+from (select s.nct_id, sum(sp.points) as score
+      from studies as s, conditions as c, scoreterms as st, scorepoints as sp
+      where s.nct_id = c.nct_id and c.name = st.name and st.term = sp.term 
+      group by s.nct_id) as t
+where score != 0;
+
+select round(avg(count_name),2),  round(avg(count_term),2)
+from(select qq.nct_id, count(distinct c.name) as count_name, count(distinct st.term) as count_term
+from studies as s, conditions as c, scoreterms as st, qq
+where qq.nct_id = s.nct_id and s.nct_id = c.nct_id and c.name = st.name
+group by qq.nct_id) as t2
+

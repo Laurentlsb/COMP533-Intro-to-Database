@@ -1,0 +1,139 @@
+/*   queries  1(a)  */
+SELECT name, email, phone
+FROM central_contacts
+UNION ALL 
+SELECT name, email, phone
+FROM facility_contacts
+UNION ALL
+SELECT name, email, phone
+FROM result_contacts;
+
+
+SELECT COUNT(*)
+FROM (SELECT name, email, phone
+FROM central_contacts
+    UNION ALL 
+    SELECT name, email, phone
+    FROM facility_contacts
+    UNION ALL
+    SELECT name, email, phone
+        FROM result_contacts) AS UNION_1; 
+/* The count value is 31311 */
+
+
+/* 1(b) */
+SELECT COUNT(*)
+FROM (SELECT name, email, phone
+      FROM central_contacts
+      UNION  
+      SELECT name, email, phone
+      FROM facility_contacts
+      UNION 
+      SELECT name, email, phone
+      FROM result_contacts) AS UNION_1;
+/*The new count value is 24549 */
+
+
+/* 1(c) */
+SELECT *
+FROM (SELECT name, email, phone
+      FROM central_contacts
+      UNION  
+      SELECT name, email, phone
+      FROM facility_contacts
+      UNION 
+      SELECT name, email, phone
+      FROM result_contacts) AS UNION_1
+WHERE name like 'Efthymios Avgerinos%';
+--Because one of the value is 'Efthymios Avgerinos, M.D.' , and the other is 'Efthymios Avgerinos, MD'.
+--We can unify the format of name, delete the 'dot' of their degree.
+
+
+/* 2(a) */
+select points
+from scorepoints
+where points = (
+	select MAX(points) 
+	from scorepoints);
+/* The highest possible value is 12. */
+
+
+/* 2(b) */
+create or replace view sub_1 as
+select s.nct_id, sum(sp.points) as score
+from studies as s, conditions as c, scoreterms as st, scorepoints as sp
+where s.nct_id = c.nct_id and c.name = st.name and st.term = sp.term 
+group by s.nct_id;
+
+select *
+from sub_1
+where score = (select max(score) from sub_1);
+/* The nct_id is NCT02652715, the score is 216 */
+
+
+/* 2(c) */
+create or replace view sub_2 as
+select s.nct_id, sum(sp.points) as score
+from studies as s, conditions as c, scoreterms as st, scorepoints as sp
+where s.nct_id = c.nct_id and c.name = st.name and st.term = sp.term and st.term = 'Neurodegenerative disorders'
+group by s.nct_id;
+
+select count(*)
+from sub_2
+where score = 6;
+/* There are 3 stueies satisfying the requirements*/
+
+
+/* 2(d) */
+select count(*)
+from studies as s, conditions as c
+where s.nct_id = c.nct_id and name not in (select name from scoreterms);
+/* 17529 studies have no risk terms */
+
+
+/* 2(e) */
+create or replace view qq as
+select nct_id
+from (select s.nct_id, sum(sp.points) as score
+      from studies as s, conditions as c, scoreterms as st, scorepoints as sp
+      where s.nct_id = c.nct_id and c.name = st.name and st.term = sp.term 
+      group by s.nct_id) as t
+where score != 0;
+
+select round(avg(count_name),2),  round(avg(count_term),2)
+from(select qq.nct_id, count(distinct c.name) as count_name, count(distinct st.term) as count_term
+from studies as s, conditions as c, scoreterms as st, qq
+where qq.nct_id = s.nct_id and s.nct_id = c.nct_id and c.name = st.name
+group by qq.nct_id) as t2
+/* The average number of contributing conditions and terms are 1.24 and 1.03 respectively. */
+
+/* 3 */
+
+
+/* 4 */
+/*Because point value is a relative value to weigh the mortality, 
+negative value means that it is not likely to be the factor causing death compared with other conditions. */
+
+/* 5 */
+create or replace view ww as
+select c.name
+from studies as s, conditions as c
+where s.nct_id = c.nct_id and s.nct_id = 'NCT02789800'; 
+
+create or replace view ee as
+select s.nct_id, count(c.name) as number_of_condition
+from ww, studies as s, conditions as c
+where s.nct_id = c.nct_id and c.name = ww.name
+group by s.nct_id;
+
+select nct_id
+from ee
+where number_of_condition >= (select number_of_condition
+			     from ee
+			     where nct_id = 'NCT02789800') and nct_id != 'NCT02789800';
+
+
+
+
+
+

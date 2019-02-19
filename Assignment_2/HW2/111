@@ -1,0 +1,49 @@
+/*   queries  1(a)  */
+SELECT name, email, phone
+FROM central_contacts
+UNION ALL 
+SELECT name, email, phone
+FROM facility_contacts
+UNION ALL
+SELECT name, email, phone
+FROM result_contacts;
+
+
+SELECT COUNT(*)
+FROM (SELECT name, email, phone
+FROM central_contacts
+    UNION ALL 
+    SELECT name, email, phone
+    FROM facility_contacts
+    UNION ALL
+    SELECT name, email, phone
+        FROM result_contacts) AS UNION_1; 
+/* The count value is 31311 */
+
+
+/* 1(b) */
+SELECT COUNT(*)
+FROM (SELECT name, email, phone
+      FROM central_contacts
+      UNION  
+      SELECT name, email, phone
+      FROM facility_contacts
+      UNION 
+      SELECT name, email, phone
+      FROM result_contacts) AS UNION_1;
+/*The new count value is 24549 */
+
+
+/* 1(c) */
+SELECT *
+FROM (SELECT name, email, phone
+      FROM central_contacts
+      UNION  
+      SELECT name, email, phone
+      FROM facility_contacts
+      UNION 
+      SELECT name, email, phone
+      FROM result_contacts) AS UNION_1
+WHERE name like 'Efthymios Avgerinos%';
+--Because one of the value is 'Efthymios Avgerinos, M.D.' , and the other is 'Efthymios Avgerinos, MD'.
+--We can unify the format of name, delete the 'dot' of their degree.
