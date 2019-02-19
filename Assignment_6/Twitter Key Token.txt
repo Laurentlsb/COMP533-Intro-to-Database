@@ -1,0 +1,23 @@
+1. I'm using Twitter's APIs to finish my database homework.
+2. Yes. I plan to analyze Tweets to collect some twitter data about ice cream and / or food trucks, store it in Mongodb and then query the data. Only in this way can I finish my homework.
+3. No. I don't need to tweet or retweet.
+4. No data will be displayed to anyone.
+
+
+YtetySiSP4MRHbjDHXM2Wpg80 (API key)
+kSdx24ual5rZZZ879h8X8mFPpgaR3HIpCx0zZMGol3BNO0ZOlw (API secret key)
+
+1070113673996230656-Hu2XKiGstX2AuPy1vyDOMMLObwwi0f (Access token)
+AROf4T2HdPThMmPTB2V62ztkN1BiBRqkDb1D0lyUehoJA (Access token secret)
+
+
+added statement:
+datajson['retrieved'] = datetime.now()
+destCollection.insert_one(datajson)
+
+NEW TOKEN:
+42Uxcdm3KSdklFl6dgQ2QRXNE (API key)
+oF8ZDrGYoN3H1hOVJd5Q88AJuVT5o02vEY5hKdSUCcckWz8Uk9 (API secret key)
+
+1070113673996230656-k50nMHy1vp01NTgFuMu5mr8mJMQKzm (Access token)
+CsP6pYYznBJ6Ayk0eAFkDAHkOhMao6lxjg0x8tSIdQNVK (Access token secret)

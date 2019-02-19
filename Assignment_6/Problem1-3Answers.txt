@@ -1,0 +1,262 @@
+Problem1
+1.1:
+db.foodInfo.findOne()
+
+1.2:
+db.foodInfo.find({portion_display_name:"regular Oreo"}).pretty()
+
+1.3:
+db.foodInfo.find({display_name:{$regex:/ice cream/i},calories:{$lt:200}}).pretty()
+
+1.4:
+db.truckEvent.find({eventStart:{$lt:"2017-09-07"}}).sort({eventStart:-1}).limit(5).pretty()
+
+1.5:
+ db.sale.aggregate([{$match:{eventId:16}},{$group:{_id:null, num_order:{$sum:1}}}]).pretty()
+
+
+1.6(a):
+db.truckEvent.update({"eventName":"Pi Day"},{"$set":{"eventName":"Pie Day"}})
+
+1.6(b):
+db.truckEvent.find({$or:[{"eventName":"Pi Day"},{"eventName":"Pie Day"}]}).pretty()
+
+1.6(c):
+4 documents were updated.
+
+db.truckEvent.update({"eventName":"GSA Coffee Break"},{"$set":{"eventName":"GSA Study Break"}},{multi:true})
+WriteResult({ "nMatched" : 4, "nUpserted" : 0, "nModified" : 4 })
+
+1.6(d):
+6 documents found.
+
+db.truckEvent.find({$or:[{"eventName":"GSA Study Break"},{"eventName":"GSA Coffee Break"}]}).count()
+
+1.7(a)
+db.foodInfo.aggregate([{$match:{category:"topping"}},{$project:{display_name:1,portion_display_name:1,calories:1}},{$out:"foodInfoToppings"}]);
+
+ db.foodInfoToppings.find().pretty()
+
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275772"),
+        "display_name" : "Whipped cream, sweetened",
+        "portion_display_name" : "cup",
+        "calories" : 103.53
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275773"),
+        "display_name" : "Whipped cream, sweetened",
+        "portion_display_name" : "8 oz",
+        "calories" : 103.53
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c52757f7"),
+        "display_name" : "Krackel or Crunch Bar",
+        "portion_display_name" : "miniature bar (.5 oz)",
+        "calories" : 69.44
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275800"),
+        "display_name" : "Chocolate chips",
+        "portion_display_name" : "morsels",
+        "calories" : 47.9
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275801"),
+        "display_name" : "Milk chocolate bar with almonds",
+        "portion_display_name" : "miniature bar (.5 oz)",
+        "calories" : 73.64
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275802"),
+        "display_name" : "Milk chocolate bar or candy (plain)",
+        "portion_display_name" : "miniature bar (.5 oz)",
+        "calories" : 74.9
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275808"),
+        "display_name" : "Coconut candy, chocolate-covered",
+        "portion_display_name" : "fun size bar",
+        "calories" : 97.2
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c527580d"),
+        "display_name" : "Chocolate-covered candy",
+        "portion_display_name" : "piece (0.6 oz)",
+        "calories" : 62.22
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275813"),
+        "display_name" : "Snickers candy bar",
+        "portion_display_name" : "miniature bar (.3 oz)",
+        "calories" : 43.11
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275817"),
+        "display_name" : "Butterfinger candy bar",
+        "portion_display_name" : "fun size bar (0.6 oz)",
+        "calories" : 99.96
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275819"),
+        "display_name" : "Marshmallows",
+        "portion_display_name" : "cup of miniatures",
+        "calories" : 36.57
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c527581e"),
+        "display_name" : "Milky Way candy bar",
+        "portion_display_name" : "miniature bar (0.3 oz)",
+        "calories" : 35.955
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275821"),
+        "display_name" : "M&M's candies with peanuts",
+        "portion_display_name" : "fun size package (0.7 oz)",
+        "calories" : 123.84
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275822"),
+        "display_name" : "Peanut brittle",
+        "portion_display_name" : "small piece (0.2 oz)",
+        "calories" : 21.78
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275828"),
+        "display_name" : "Peanut butter cups (Reese's)",
+        "portion_display_name" : "miniature cup",
+        "calories" : 36.05
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275831"),
+        "display_name" : "M&M's plain chocolate candies",
+        "portion_display_name" : "fun size package (0.7 oz)",
+        "calories" : 103.32
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275879"),
+        "display_name" : "Syrup (all types)",
+        "portion_display_name" : "Tablespoon",
+        "calories" : 53
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c527587c"),
+        "display_name" : "Butterscotch sauce",
+        "portion_display_name" : "Tablespoon",
+        "calories" : 62.964
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c527587f"),
+        "display_name" : "Fudge sauce (thick type)",
+        "portion_display_name" : "Tablespoon",
+        "calories" : 72.66
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275880"),
+        "display_name" : "Fruit topping",
+        "portion_display_name" : "Tablespoon",
+        "calories" : 53.848
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275883"),
+        "display_name" : "Marshmallow topping",
+        "portion_display_name" : "Tablespoon",
+        "calories" : 19.964
+}
+{
+        "_id" : ObjectId("5c08c66ae8954406c5275884"),
+        "display_name" : "Nut topping (wet)",
+        "portion_display_name" : "Tablespoon",
+        "calories" : 89.6
+}
+
+1.7(b)
+db.ingredient.aggregate([
+    {$match:{category:"topping"}},
+    {$lookup:{from:"foodInfoToppings",
+               localField:"ingName",
+               foreignField:"display_name",
+               as:"topping_docs"}},
+    {$unwind:"$topping_docs"},
+    {$lookup:{from:"unit",
+              localField:"topping_docs.portion_display_name",
+              foreignField:"unitName",
+              as:"unit_docs"}},
+    {$unwind:"$unit_docs"},
+    {$project:{_id:1,
+               ingName:1,
+               "topping_docs.portion_display_name":1,
+               "topping_docs.calories":1,
+               "unit_docs.ounces":1,
+               calPerOunce:{$divide:["$topping_docs.calories","$unit_docs.ounces"]}}},
+    {$sort:{calPerOunce:-1}},
+    {$limit:3}
+    ]).pretty();
+
+
+Problem2
+2.1:
+db.icecream.update({"netId":{$exists:false}},{"$set":{"netId":"sl125"}},false,true)
+
+2.2:
+db.icecream.find({$where:"this.text.length > 140"}).count()
+
+61 tweets.
+
+2.3:
+4 tweets.
+
+ db.icecream.find(
+ {$or:[
+          {text:{$regex:/#foodtruck/}},
+          {"extended_tweet.full_text":{$regex:/#foodtruck/}}]}).count()
+
+2.4:
+{ "_id" : "United States", "count" : 16 }
+{ "_id" : "Indonesia", "count" : 10 }
+{ "_id" : "Los Angeles, CA", "count" : 8 }
+{ "_id" : "Chicago, IL", "count" : 6 }
+{ "_id" : "Florida, USA", "count" : 6 }
+
+db.icecream.aggregate([
+    {$match:{"user.location":{$ne:null}}},
+    {$group:{"_id":"$user.location", count:{$sum:1}}},
+    {$sort:{count:-1,"_id":1}},
+    {$limit:5}])
+
+2.5:
+0 tweet.
+
+db.icecream.find({"retweet_count":{$gt:0}}).count()
+
+2.6:
+3514909 followers
+
+db.icecream.aggregate({$group:{_id:null,num_followers:{$max:"$user.followers_count"}}})
+
+2.7:
+mongoexport --db ricedb --collection icecream --out D:\icecream_sl125.json --username ricedb --password 522238830
+
+
+
+Problem3:Short Answer
+3.1
+Advantage: reflect 1-M relationships more directly and explicitly, all the related data can be retrieved with just one query.
+Disadvantage: it can be difficult to update the data within embedded documents if there are hundreds of embedded documents within one field.
+
+3.2
+The information about the tweets is more completed.
+
+3.3
+We need more space to store these data.
+
+
+
+
+
+
+
+
+
+
+
